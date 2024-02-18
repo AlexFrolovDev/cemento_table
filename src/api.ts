@@ -6,7 +6,7 @@ const LOCAL_STORAGE_KEY = "cemento_data";
 /**
  * async to emulate server request
  */
-export const getData = async (): Promise<{
+export const getData = async (rowsCount = 500): Promise<{
   rows: ITableData;
   colDefs: ITableColumnsDef;
   groupByColId?: string;
@@ -14,10 +14,10 @@ export const getData = async (): Promise<{
   let savedData;
   try {
     savedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) as string);
-    if (!savedData) return await fetchData();
+    if (!savedData) return await fetchData(rowsCount);
     return savedData;
   } catch (e) {
-    return await fetchData();
+    return await fetchData(rowsCount);
   }
 };
 
@@ -38,7 +38,9 @@ export const clearData = () => {
 /**
  * async to emulate DB query
  */
-const fetchData = async (): Promise<{
+const fetchData = async (
+  rowsAmount = 500
+): Promise<{
   rows: ITableData;
   colDefs: ITableColumnsDef;
   groupBy: string;
@@ -49,7 +51,11 @@ const fetchData = async (): Promise<{
     const rows = await rowsData.json();
     const colDefs = await colsData.json();
 
-    return { rows, colDefs, groupBy: "" };
+    return {
+      rows: (rows as IDataRow[]).slice(0, rowsAmount),
+      colDefs,
+      groupBy: "",
+    };
   } catch (e) {
     return { rows: [], colDefs: [], groupBy: "" };
   }
