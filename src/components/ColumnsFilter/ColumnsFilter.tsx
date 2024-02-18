@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
 import { ITableColumnsDef } from "../../types";
-import { Grid } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import styled from "styled-components";
 
 const Wrapper = styled(Grid)`
@@ -20,11 +20,12 @@ const Group = styled.div`
 `;
 
 type IColumnsFilterProps = {
-  disabled: boolean;
+  disabled?: boolean;
   colDefs: ITableColumnsDef;
   groupByColumnId?: string;
   onVisibleColumnsChange: (colDefs: ITableColumnsDef) => void;
   onGroupBy: (id: string | undefined) => void;
+  onSearchUpdate: (search: string) => void;
 };
 
 const ColumnsFilter = (props: IColumnsFilterProps) => {
@@ -34,7 +35,14 @@ const ColumnsFilter = (props: IColumnsFilterProps) => {
     groupByColumnId = "",
     onVisibleColumnsChange,
     onGroupBy,
+    onSearchUpdate,
   } = props;
+
+  const [_searchQuery, _setSearchQuery] = useState<string>("");
+
+  const onSearchQueryChange = (e: any) => {
+    _setSearchQuery(e.target.value);
+  };
 
   const handleVisibilityChange = (event: SelectChangeEvent<string[]>) => {
     const {
@@ -67,6 +75,13 @@ const ColumnsFilter = (props: IColumnsFilterProps) => {
 
     return ids;
   }, [colDefs]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      onSearchUpdate(_searchQuery);
+    }, 500);
+    return () => clearTimeout(timeoutId);
+  }, [_searchQuery, onSearchUpdate]);
 
   return (
     <Wrapper>
@@ -114,6 +129,15 @@ const ColumnsFilter = (props: IColumnsFilterProps) => {
             </MenuItem>
           ))}
         </Select>
+      </Group>
+      <Group>
+        <TextField
+          placeholder="Search Text"
+          size="small"
+          type="text"
+          value={_searchQuery}
+          onChange={onSearchQueryChange}
+        />
       </Group>
     </Wrapper>
   );

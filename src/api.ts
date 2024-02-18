@@ -24,7 +24,7 @@ export const getData = async (): Promise<{
 export const saveData = (data: {
   rows: ITableData;
   colDefs: ITableColumnsDef;
-  groupByColId: string
+  groupByColId: string;
 }) => {
   try {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
@@ -75,6 +75,15 @@ export const groupRowsByColumnId = (
   }
 
   return data;
+};
+
+export const applySearchToData = (rows: IDataRow[], search: string) => {
+  if (!search) return rows;
+  return rows.filter((row) =>
+    Object.values(row).some((v) =>
+      v.toString().toLowerCase().includes(search.toLowerCase())
+    )
+  );
 };
 
 const processRows = (rows: IDataRow[] = []): IDataRow[] => {

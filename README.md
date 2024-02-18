@@ -1,46 +1,16 @@
-# Getting Started with Create React App
+**Data structure in the requirements pdf was very confusing, too much time took to just adjust it to image provided and 'schema' in text**
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### What's implemented
 
-## Available Scripts
+* Columns visibility toggle implemented
+* Custom columns grouping
+* Search field with debounce of 500ms and search over all columns' VALUES
+* Simple custom row editing with simple controls implemented
+* Saving to localStorage and reseting implemented
+* Row and Column types are extended a little bit for convinience. Spec provides extremely basic and confusing schemas
 
-In the project directory, you can run:
+### Notes
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+* No virtualization is used. For large data sets - necessary
+* No Context API for props sharing is used, just custom hook on top level. To prevent further props drilling and improve some other things - custom hook may be moved to Context API
+* Almost no memoization is implemented, but, of course there's room for it at least at TableCells' level with Context API utilization to help

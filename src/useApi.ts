@@ -1,11 +1,18 @@
 import { IDataRow, ITableColumnsDef, ITableData } from "./types";
 import { useEffect, useMemo, useState } from "react";
-import { clearData, getData, groupRowsByColumnId, saveData } from "./api";
+import {
+  applySearchToData,
+  clearData,
+  getData,
+  groupRowsByColumnId,
+  saveData,
+} from "./api";
 
 export const useApi = () => {
   const [colDefs, setColDefs] = useState<ITableColumnsDef>();
   const [rows, setRows] = useState<IDataRow[]>();
   const [groupByColId, setGroupByColId] = useState<string | undefined>();
+  const [search, setSearch] = useState<string>("");
 
   const fetchData = async () => {
     const remoteData = await getData();
@@ -43,18 +50,25 @@ export const useApi = () => {
     fetchData();
   }, []);
 
+  const filteredDataRows: IDataRow[] = useMemo(() => {
+    const _rows = applySearchToData(rows || [], search);
+    console.log('search applied: ', _rows);
+    return _rows;
+  }, [rows, search]);
+
   const groupedByColIdRows: IDataRow[][] = useMemo(() => {
-    return groupRowsByColumnId(rows || [], groupByColId || "");
-  }, [rows, groupByColId]);
+    return groupRowsByColumnId(filteredDataRows || [], groupByColId || "");
+  }, [filteredDataRows, groupByColId]);
 
   return {
     colDefs,
-    rows,
+    rows: filteredDataRows,
     groupByColId,
     groupedByColIdRows,
     setGroupBy,
     updateData,
     updateColumns,
     clearSavedData,
+    setSearch,
   };
 };

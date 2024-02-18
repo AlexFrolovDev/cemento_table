@@ -1,7 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useApi } from "./useApi";
 import ColumnsFilter from "./components/ColumnsFilter/ColumnsFilter";
-import { Button, Grid, IconButton, TableCell, TableRow } from "@mui/material";
+import {
+  Button,
+  Grid,
+  IconButton,
+  TableCell,
+  TableRow,
+  TextField,
+} from "@mui/material";
 import DataTable from "./components/DataTable/DataTable";
 import styled from "styled-components";
 import { IDataRow } from "./types";
@@ -18,6 +25,7 @@ const Wrapper = styled(Grid)`
 
 const Header = styled(Grid)`
   display: flex;
+  align-items: center;
   gap: 1em;
 `;
 
@@ -36,10 +44,8 @@ function App() {
     updateData,
     updateColumns,
     clearSavedData,
+    setSearch,
   } = useApi();
-  const [editing, setEditing] = useState<
-    { row: string; column: string } | undefined
-  >();
 
   const onRowUpdate = useCallback(
     (rowId: string, rowValues: { [key: string]: any }) => {
@@ -56,35 +62,41 @@ function App() {
   );
 
   const MemoizedTable = useMemo(() => {
+    if (!colDefs) return null;
+
     const data =
       groupByColId && groupedByColIdRows.length > 0
         ? groupedByColIdRows
         : rows || [];
-    return colDefs ? (
+
+    return (
       <DataTable
         rows={data}
         cols={colDefs}
         groupByColId={groupByColId}
         onRowUpdate={onRowUpdate}
       />
-    ) : null;
+    );
   }, [rows, colDefs, groupByColId, groupedByColIdRows, onRowUpdate]);
 
   return (
     <Wrapper>
-      <Header>
-        {colDefs ? (
-          <ColumnsFilter
-            disabled={!!editing}
-            colDefs={colDefs}
-            onVisibleColumnsChange={updateColumns}
-            groupByColumnId={groupByColId}
-            onGroupBy={setGroupBy}
-          />
-        ) : null}
-        <Button onClick={clearSavedData}>Clear Local Data</Button>
-      </Header>
-      <Main>{MemoizedTable}</Main>
+      {colDefs && rows ? (
+        <>
+          <Header>
+            <ColumnsFilter
+              colDefs={colDefs}
+              onVisibleColumnsChange={updateColumns}
+              groupByColumnId={groupByColId}
+              onGroupBy={setGroupBy}
+              onSearchUpdate={setSearch}
+            />
+
+            <Button onClick={clearSavedData}>Clear Local Data</Button>
+          </Header>
+          <Main>{MemoizedTable}</Main>
+        </>
+      ) : null}
     </Wrapper>
   );
 }
