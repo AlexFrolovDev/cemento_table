@@ -13,7 +13,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
-import { memo, useMemo, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { IColumn, IDataRow, ITableColumnsDef } from "../../../types";
 
 type IDataRowProps = {
@@ -32,6 +32,13 @@ const DataRow = (props: IDataRowProps) => {
     [key: string]: any;
   }>({});
   const isGroup = Array.isArray(row);
+
+  const onTableCellChange = useCallback(
+    (id: string, value: any) => {
+      setEditedCellValues((values) => ({ ...values, [id]: value }));
+    },
+    [setEditedCellValues]
+  );
 
   const getSummaryCellContent = (col: IColumn, row: IDataRow[]) => {
     let count = 0;
@@ -140,8 +147,11 @@ const DataRow = (props: IDataRowProps) => {
 
   return (
     <>
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className={className}>
-        <TableCell align={isGroup ? 'left' : 'right'}>
+      <TableRow
+        sx={{ "& > *": { borderBottom: "unset" } }}
+        className={className}
+      >
+        <TableCell align={isGroup ? "left" : "right"}>
           {isGroup ? (
             <IconButton
               aria-label="expand row"
@@ -182,9 +192,7 @@ const DataRow = (props: IDataRowProps) => {
 
             return (
               <DataTableCell
-                onChange={(id: string, value: any) =>
-                  setEditedCellValues((values) => ({ ...values, [id]: value }))
-                }
+                onChange={onTableCellChange}
                 editing={col.id !== groupByColId ? editing : false}
                 colDef={col}
                 key={col.id}
@@ -198,7 +206,7 @@ const DataRow = (props: IDataRowProps) => {
         ? row.map((_row) => {
             return (
               <DataRow
-                className='nested-row'
+                className="nested-row"
                 key={_row.id}
                 cols={cols}
                 row={_row}
