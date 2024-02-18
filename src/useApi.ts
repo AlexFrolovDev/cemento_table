@@ -52,7 +52,7 @@ export const useApi = () => {
 
   const filteredDataRows: IDataRow[] = useMemo(() => {
     const _rows = applySearchToData(rows || [], search);
-    console.log('search applied: ', _rows);
+    //console.log('search applied: ', _rows);
     return _rows;
   }, [rows, search]);
 

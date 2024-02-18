@@ -61,7 +61,7 @@ const ColumnsFilter = (props: IColumnsFilterProps) => {
       target: { value },
     } = event;
 
-    console.log(value);
+    //console.log(value);
 
     onGroupBy(value);
   };

@@ -141,7 +141,7 @@ const DataRow = (props: IDataRowProps) => {
   return (
     <>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className={className}>
-        <TableCell>
+        <TableCell align={isGroup ? 'left' : 'right'}>
           {isGroup ? (
             <IconButton
               aria-label="expand row"

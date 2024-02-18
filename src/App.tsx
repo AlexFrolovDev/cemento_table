@@ -1,14 +1,7 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import { useApi } from "./useApi";
 import ColumnsFilter from "./components/ColumnsFilter/ColumnsFilter";
-import {
-  Button,
-  Grid,
-  IconButton,
-  TableCell,
-  TableRow,
-  TextField,
-} from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import DataTable from "./components/DataTable/DataTable";
 import styled from "styled-components";
 import { IDataRow } from "./types";
@@ -49,7 +42,7 @@ function App() {
 
   const onRowUpdate = useCallback(
     (rowId: string, rowValues: { [key: string]: any }) => {
-      console.log("saving row: ", rowValues);
+      //console.log("saving row: ", rowValues);
       const _newRows = rows?.map((row) => {
         if (row.id === rowId) {
           return { ...row, ...rowValues };
