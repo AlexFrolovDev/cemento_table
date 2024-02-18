@@ -14,10 +14,10 @@ export const getData = async (): Promise<{
   let savedData;
   try {
     savedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) as string);
-    if (!savedData) return await generateData();
+    if (!savedData) return await fetchData();
     return savedData;
   } catch (e) {
-    return await generateData();
+    return await fetchData();
   }
 };
 
@@ -38,6 +38,23 @@ export const clearData = () => {
 /**
  * async to emulate DB query
  */
+const fetchData = async (): Promise<{
+  rows: ITableData;
+  colDefs: ITableColumnsDef;
+  groupBy: string;
+}> => {
+  try {
+    const rowsData = await fetch("./data/rows.json");
+    const colsData = await fetch("./data/colDefs.json");
+    const rows = await rowsData.json();
+    const colDefs = await colsData.json();
+
+    return { rows, colDefs, groupBy: "" };
+  } catch (e) {
+    return { rows: [], colDefs: [], groupBy: "" };
+  }
+};
+
 const generateData = async (): Promise<{
   rows: ITableData;
   colDefs: ITableColumnsDef;
@@ -148,7 +165,7 @@ const generateRows = (colDefs: ITableColumnsDef = []): ITableData => {
     });
   };
 
-  for (let i = 0; i < 500; i++) {
+  for (let i = 0; i < 2000; i++) {
     const rowId = uuidv4();
 
     const rowData: IDataRow = {

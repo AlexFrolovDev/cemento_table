@@ -1,0 +1,114 @@
+[
+  {
+      "id": "73b75026-9df2-4813-9f39-d8ace983fc0a",
+      "ordinalNo": 0,
+      "title": "Name",
+      "type": "string",
+      "summaryAggregation": "total",
+      "visible": true
+  },
+  {
+      "id": "798346ad-1432-42a2-bca9-b2f77e9bd64e",
+      "ordinalNo": 1,
+      "title": "Points",
+      "type": "number",
+      "summaryAggregation": "sum",
+      "visible": true
+  },
+  {
+      "id": "5c71eddd-b982-4408-9d31-d763bf155f6d",
+      "ordinalNo": 2,
+      "title": "Branch",
+      "type": "list",
+      "summaryAggregation": "total",
+      "visible": true,
+      "listOptions": [
+          {
+              "key": "0",
+              "value": "New York"
+          },
+          {
+              "key": "1",
+              "value": "LA"
+          },
+          {
+              "key": "2",
+              "value": "Tel Aviv"
+          },
+          {
+              "key": "3",
+              "value": "Singapore"
+          },
+          {
+              "key": "4",
+              "value": "Kyiv"
+          },
+          {
+              "key": "5",
+              "value": "London"
+          }
+      ]
+  },
+  {
+      "id": "41f6d153-8564-4424-9d7c-231aa94d21dd",
+      "ordinalNo": 3,
+      "title": "Position",
+      "type": "list",
+      "summaryAggregation": "total",
+      "visible": true,
+      "listOptions": [
+          {
+              "key": "0",
+              "value": "Developer"
+          },
+          {
+              "key": "1",
+              "value": "Product Manager"
+          },
+          {
+              "key": "2",
+              "value": "QA"
+          },
+          {
+              "key": "3",
+              "value": "Accountant"
+          },
+          {
+              "key": "4",
+              "value": "Jack Sparrow"
+          },
+          {
+              "key": "5",
+              "value": "Robert Paulsen"
+          },
+          {
+              "key": "6",
+              "value": "Leeroy Jenkins"
+          }
+      ]
+  },
+  {
+      "id": "2a5c9581-8479-4d96-a91f-cbdbabb78582",
+      "ordinalNo": 4,
+      "title": "Email",
+      "type": "string",
+      "summaryAggregation": "total",
+      "visible": true
+  },
+  {
+      "id": "5b26f10d-afae-44ab-b16d-cbc77efd9338",
+      "ordinalNo": 5,
+      "title": "Available",
+      "type": "boolean",
+      "summaryAggregation": "list",
+      "visible": true
+  },
+  {
+      "id": "706e5ddf-504a-499f-aa32-4eb004d649ae",
+      "ordinalNo": 6,
+      "title": "Age",
+      "type": "number",
+      "summaryAggregation": "total",
+      "visible": true
+  }
+]

@@ -72,6 +72,8 @@ function App() {
     );
   }, [rows, colDefs, groupByColId, groupedByColIdRows, onRowUpdate]);
 
+  console.log(colDefs, rows);
+
   return (
     <Wrapper>
       {colDefs && rows ? (
@@ -86,6 +88,9 @@ function App() {
             />
 
             <Button onClick={clearSavedData}>Clear Local Data</Button>
+            <span>
+              <strong>Total rows: {rows.length}</strong>
+            </span>
           </Header>
           <Main>{MemoizedTable}</Main>
         </>

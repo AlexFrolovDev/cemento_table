@@ -42,6 +42,10 @@ export const useApi = () => {
   };
 
   const clearSavedData = () => {
+    setRows([]);
+    setColDefs([]);
+    setGroupByColId('');
+    setSearch('');
     clearData();
     fetchData();
   };

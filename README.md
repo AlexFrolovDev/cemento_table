@@ -1,5 +1,7 @@
 **Data structure in the requirements pdf was very confusing, too much time took to just adjust it to image provided and 'schema' in text**
 
+### Data is generated LOCALLY IN RUNTIME, hence sluggish behavior of the App. Should be fetched from remote server or local json file if it's a big deal
+
 ### What's implemented
 
 * Columns visibility toggle implemented
