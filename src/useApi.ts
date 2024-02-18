@@ -10,26 +10,28 @@ export const useApi = () => {
   const fetchData = async () => {
     const remoteData = await getData();
 
-    console.log(remoteData);
-
     setColDefs(remoteData.colDefs);
     setRows(remoteData.rows);
-    setGroupByColId(remoteData.groupBy);
+    setGroupByColId(remoteData.groupByColId);
   };
 
-  const setGroupBy = (colId?: string) => {
+  const setGroupBy = (colId: string = "") => {
     setGroupByColId(colId);
-    
+    saveData({ colDefs: colDefs || [], rows: rows || [], groupByColId: colId });
   };
 
   const updateData = (rows: IDataRow[]) => {
     setRows(rows);
-    saveData({ colDefs: colDefs || [], rows });
+    saveData({
+      colDefs: colDefs || [],
+      rows,
+      groupByColId: groupByColId || "",
+    });
   };
 
   const updateColumns = (colDefs: ITableColumnsDef) => {
     setColDefs(colDefs);
-    saveData({ colDefs, rows: rows || [] });
+    saveData({ colDefs, rows: rows || [], groupByColId: groupByColId || "" });
   };
 
   const clearSavedData = () => {
@@ -43,7 +45,7 @@ export const useApi = () => {
 
   const groupedByColIdRows: IDataRow[][] = useMemo(() => {
     return groupRowsByColumnId(rows || [], groupByColId || "");
-  }, [groupByColId]);
+  }, [rows, groupByColId]);
 
   return {
     colDefs,

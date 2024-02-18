@@ -20,6 +20,7 @@ const Group = styled.div`
 `;
 
 type IColumnsFilterProps = {
+  disabled: boolean;
   colDefs: ITableColumnsDef;
   groupByColumnId?: string;
   onVisibleColumnsChange: (colDefs: ITableColumnsDef) => void;
@@ -28,6 +29,7 @@ type IColumnsFilterProps = {
 
 const ColumnsFilter = (props: IColumnsFilterProps) => {
   const {
+    disabled,
     colDefs,
     groupByColumnId = "",
     onVisibleColumnsChange,
@@ -71,6 +73,7 @@ const ColumnsFilter = (props: IColumnsFilterProps) => {
       <Group>
         <strong>Visibility:</strong>&nbsp;
         <Select
+          disabled={disabled}
           multiple
           value={selectedColumnsIds}
           onChange={handleVisibilityChange}
@@ -94,6 +97,8 @@ const ColumnsFilter = (props: IColumnsFilterProps) => {
       <Group>
         <strong>GroupBy: </strong>&nbsp;
         <Select
+          size="small"
+          disabled={disabled}
           value={groupByColumnId}
           onChange={onGroupByChange}
           input={<OutlinedInput label="Column" />}

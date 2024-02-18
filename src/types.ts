@@ -12,8 +12,10 @@ export interface IColumn {
   ordinalNo: number; // <- position of the column,
   title: string; // <- name of the column,
   type: IColumnType; // <- type of the data in the column,
+  summaryAggregation: 'total' | 'sum' | 'list',
   width?: number; // <- defines the width of the column
-  visible?: boolean
+  visible?: boolean;
+  listOptions?: IListOption[]; // <- list options
 }
 
 /**
@@ -22,7 +24,6 @@ export interface IColumn {
  */
 export interface IDataRow {
   id: string;
-  children?: IDataRow[];
   [columnId: string]: any;
 }
 

@@ -9,7 +9,7 @@ const LOCAL_STORAGE_KEY = "cemento_data";
 export const getData = async (): Promise<{
   rows: ITableData;
   colDefs: ITableColumnsDef;
-  groupBy?: string;
+  groupByColId?: string;
 }> => {
   let savedData;
   try {
@@ -24,6 +24,7 @@ export const getData = async (): Promise<{
 export const saveData = (data: {
   rows: ITableData;
   colDefs: ITableColumnsDef;
+  groupByColId: string
 }) => {
   try {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
@@ -117,18 +118,21 @@ const generateRows = (colDefs: ITableColumnsDef = []): ITableData => {
           rowData[colDef.id] = getRandomFromArray(NAMES);
           break;
         case 1:
-          rowData[colDef.id] = getRandomFromArray(BRANCHES);
+          rowData[colDef.id] = Math.floor(Math.random() * 100 + 1);
           break;
         case 2:
-          rowData[colDef.id] = getRandomFromArray(POSITIONS);
+          rowData[colDef.id] = getRandomFromArray(BRANCHES);
           break;
         case 3:
-          rowData[colDef.id] = getRandomFromArray(EMAILS);
+          rowData[colDef.id] = getRandomFromArray(POSITIONS);
           break;
         case 4:
-          rowData[colDef.id] = Math.random() < 0.5;
+          rowData[colDef.id] = getRandomFromArray(EMAILS);
           break;
         case 5:
+          rowData[colDef.id] = Math.random() < 0.5;
+          break;
+        case 6:
           rowData[colDef.id] = Math.floor(Math.random() * 80 + 18);
           break;
       }
@@ -175,41 +179,67 @@ const getColDefs = (): ITableColumnsDef => {
     ordinalNo: 0,
     title: "Name",
     type: "string",
+    summaryAggregation: "total",
     visible: true,
   });
   colDefs.push({
     id: uuidv4(),
     ordinalNo: 1,
-    title: "Branch",
-    type: "list",
+    title: "Points",
+    type: "number",
+    summaryAggregation: "sum",
     visible: true,
   });
   colDefs.push({
     id: uuidv4(),
     ordinalNo: 2,
-    title: "Position",
+    title: "Branch",
     type: "list",
+    summaryAggregation: "total",
     visible: true,
+    listOptions: BRANCHES.map((branch, idx) => {
+      return {
+        key: idx.toString(),
+        value: branch,
+      };
+    }),
   });
   colDefs.push({
     id: uuidv4(),
     ordinalNo: 3,
-    title: "Email",
-    type: "string",
+    title: "Position",
+    type: "list",
+    summaryAggregation: "total",
     visible: true,
+    listOptions: POSITIONS.map((position, idx) => {
+      return {
+        key: idx.toString(),
+        value: position,
+      };
+    }),
   });
   colDefs.push({
     id: uuidv4(),
     ordinalNo: 4,
-    title: "Available",
-    type: "boolean",
+    title: "Email",
+    type: "string",
+    summaryAggregation: "total",
     visible: true,
   });
   colDefs.push({
     id: uuidv4(),
     ordinalNo: 5,
+    title: "Available",
+    type: "boolean",
+    summaryAggregation: "list",
+    visible: true,
+  });
+  colDefs.push({
+    id: uuidv4(),
+    ordinalNo: 6,
     title: "Age",
     type: "number",
+    summaryAggregation: "total",
     visible: true,
   });
 

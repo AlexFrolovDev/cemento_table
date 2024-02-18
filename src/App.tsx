@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useApi } from "./useApi";
 import ColumnsFilter from "./components/ColumnsFilter/ColumnsFilter";
 import { Button, Grid, IconButton, TableCell, TableRow } from "@mui/material";
 import DataTable from "./components/DataTable/DataTable";
 import styled from "styled-components";
+import { IDataRow } from "./types";
 
 const Wrapper = styled(Grid)`
   &.MuiGrid-root {
@@ -36,25 +37,45 @@ function App() {
     updateColumns,
     clearSavedData,
   } = useApi();
+  const [editing, setEditing] = useState<
+    { row: string; column: string } | undefined
+  >();
 
-  useEffect(() => {
-  }, [colDefs]);
-
-  console.log(colDefs, rows, groupByColId);
+  const onRowUpdate = useCallback(
+    (rowId: string, rowValues: { [key: string]: any }) => {
+      console.log("saving row: ", rowValues);
+      const _newRows = rows?.map((row) => {
+        if (row.id === rowId) {
+          return { ...row, ...rowValues };
+        }
+        return { ...row };
+      });
+      updateData(_newRows as IDataRow[]);
+    },
+    [rows, updateData]
+  );
 
   const MemoizedTable = useMemo(() => {
     const data =
       groupByColId && groupedByColIdRows.length > 0
         ? groupedByColIdRows
         : rows || [];
-    return colDefs ? <DataTable rows={data} cols={colDefs} groupByColId={groupByColId} /> : null;
-  }, [rows, colDefs, groupByColId, groupedByColIdRows]);
+    return colDefs ? (
+      <DataTable
+        rows={data}
+        cols={colDefs}
+        groupByColId={groupByColId}
+        onRowUpdate={onRowUpdate}
+      />
+    ) : null;
+  }, [rows, colDefs, groupByColId, groupedByColIdRows, onRowUpdate]);
 
   return (
     <Wrapper>
       <Header>
         {colDefs ? (
           <ColumnsFilter
+            disabled={!!editing}
             colDefs={colDefs}
             onVisibleColumnsChange={updateColumns}
             groupByColumnId={groupByColId}
