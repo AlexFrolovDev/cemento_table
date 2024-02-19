@@ -57,10 +57,15 @@ function App() {
   const MemoizedTable = useMemo(() => {
     if (!colDefs) return null;
 
-    const data =
-      groupByColId && groupedByColIdRows.length > 0
-        ? groupedByColIdRows
-        : rows || [];
+    let data;
+
+    if (!groupByColId) {
+      data = rows || [];
+    } else {
+      data = groupedByColIdRows;
+    }
+
+    console.log(groupByColId);
 
     return (
       <DataTable
@@ -71,8 +76,6 @@ function App() {
       />
     );
   }, [rows, colDefs, groupByColId, groupedByColIdRows, onRowUpdate]);
-
-  console.log(colDefs, rows);
 
   return (
     <Wrapper>
