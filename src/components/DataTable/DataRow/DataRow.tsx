@@ -40,14 +40,14 @@ const DataRow = (props: IDataRowProps) => {
     [setEditedCellValues]
   );
 
-  const getSummaryCellContent = (col: IColumn, row: IDataRow[]) => {
+  const getSummaryCellContent = (col: IColumn) => {
     let count = 0;
     let cellValue = null;
 
     switch (col.type) {
       case "string":
       case "list":
-        count = row.reduce((total, row) => {
+        count = row.reduce((total: number, row: IDataRow) => {
           if (row[col.id].length > 0) {
             return total + 1;
           }
@@ -59,7 +59,7 @@ const DataRow = (props: IDataRowProps) => {
 
       case "number":
         if (col.summaryAggregation === "sum") {
-          count = row.reduce((total, row) => {
+          count = row.reduce((total: number, row: IDataRow) => {
             if (parseFloat(row[col.id])) {
               return total + parseFloat(row[col.id]);
             }
@@ -69,7 +69,7 @@ const DataRow = (props: IDataRowProps) => {
           cellValue = `${count}`;
         }
         if (col.summaryAggregation === "total") {
-          count = row.reduce((total, row) => {
+          count = row.reduce((total: number, row: IDataRow) => {
             if (parseFloat(row[col.id])) {
               return total + 1;
             }
@@ -84,7 +84,7 @@ const DataRow = (props: IDataRowProps) => {
       case "boolean":
         if (col.summaryAggregation === "list") {
           const values = row.reduce(
-            (total, row) => {
+            (total: number[], row: IDataRow) => {
               total[row[col.id] === true ? 0 : 1]++;
               return total;
             },
@@ -183,7 +183,7 @@ const DataRow = (props: IDataRowProps) => {
                 </div>
               );
             } else {
-              cellValue = getSummaryCellContent(col, row);
+              cellValue = getSummaryCellContent(col);
             }
             return <DataTableCell key={col.id} content={cellValue} />; // Wrap with some HOC and components composition later
           } else {
