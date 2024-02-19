@@ -61,11 +61,11 @@ const fetchData = async (
   }
 };
 
-const generateData = async (): Promise<{
+const generateData = (): {
   rows: ITableData;
   colDefs: ITableColumnsDef;
   groupBy: string;
-}> => {
+} => {
   const colDefs: ITableColumnsDef = getColDefs();
   const rows: ITableData = generateRows(colDefs);
 
