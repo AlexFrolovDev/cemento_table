@@ -33,8 +33,7 @@ const DataTable = (props: IDataTableProps) => {
                     align="center"
                     style={{
                       backgroundColor: colDef.id === groupByColId ? "grey" : "",
-                      fontWeight:
-                        colDef.id === groupByColId ? "bold" : "normal",
+                      fontWeight: "bold",
                     }}
                     key={colDef.id}
                   >
